@@ -15,7 +15,7 @@ Diseño responsive con sidebar colapsable, navbar superior, footer fijo y enruta
 | Animaciones | Framer Motion | 12.x |
 | Íconos | react-icons (Feather) | 5.x |
 | Enrutamiento | react-router-dom | 7.x |
-| Testing | Vitest + @testing-library/react + jsdom | 4.x |
+| Testing | TestSprite MCP | — |
 | Linting | ESLint + react-hooks + react-refresh | 10.x |
 | Fuentes | Inter + JetBrains Mono (Google Fonts) | — |
 
@@ -26,7 +26,6 @@ react-project/
 ├── index.html                    # HTML entry (carga Google Fonts)
 ├── package.json                  # Dependencias y scripts
 ├── vite.config.js                # Configuración de Vite
-├── vitest.config.js              # Configuración de Vitest
 ├── eslint.config.js              # Reglas de ESLint
 ├── nginx.conf                    # Config NGINX para producción
 ├── Dockerfile                    # Build multi-etapa (node → nginx)
@@ -56,9 +55,6 @@ react-project/
     │   │   └── Footer.jsx           # Footer fijo y responsive
     │   └── pages/
     │       └── DashboardHome.jsx    # Página principal placeholder
-    └── test/
-        ├── setup.js              # Configuración de tests (matchMedia mock)
-        └── App.test.jsx          # Smoke test
 ```
 
 ## Arquitectura de Componentes
@@ -106,9 +102,6 @@ npm run dev        # Desarrollo (puerto 3000, host 0.0.0.0)
 npm run build      # Build producción → dist/
 npm run preview    # Vista previa del build
 npm run lint       # ESLint
-npm run test       # Tests (modo watch)
-npm run test:run   # Tests (single run)
-npm run test:ui    # Tests con UI Vitest
 ```
 
 ## Patrones y Convenciones
@@ -167,20 +160,25 @@ Ver `.env.example`:
 ```
 VITE_APP_TITLE=react-project
 VITE_API_URL=http://localhost:4000
+TESTSPRITE_API_KEY=
 ```
 
-Las variables deben empezar con `VITE_` para ser expuestas al frontend.
+Las variables deben empezar con `VITE_` para ser expuestas al frontend. `TESTSPRITE_API_KEY` se usa internamente por el MCP TestSprite.
 
 ## Testing
 
-- Framework: Vitest con entorno jsdom
-- Setup: `src/test/setup.js` (mock de matchMedia para Chakra UI)
-- Test de humo: verifica que los componentes del sidebar rendericen
-- Para correr: `npm run test:run`
+- Framework: TestSprite (MCP)
+- Las pruebas se ejecutan a través del MCP TestSprite configurado en `opencode.jsonc`
+- Requiere `TESTSPRITE_API_KEY` en `.env`
+- El servidor de desarrollo debe estar corriendo (`npm run dev`) antes de ejecutar las pruebas
+- Comandos disponibles:
+  - `bootstrap`: inicializar configuración
+  - `generate test plan`: generar plan de pruebas
+  - `generate and execute`: generar y ejecutar tests
 
 ## ESLint
 
 - Configuración plana (formato nuevo de ESLint v10)
 - Plugins: react-hooks, react-refresh
-- Globals: browser + vitest
+- Globals: browser
 - Ignora: dist/, coverage/
