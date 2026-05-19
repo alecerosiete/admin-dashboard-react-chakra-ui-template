@@ -42,7 +42,6 @@ coverage
 .nyc_output
 
 # Local opencode config
-opencode.jsonc
 opencode.jsonc.example
 opencode.jsonc.tui-migration.bak
 tui.json
